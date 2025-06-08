@@ -1,5 +1,4 @@
 import { USER_AGENT } from "../index.js";
-import { AlertFeature } from "./types.js";
 
 export async function makeNWSRequest<T>(url: string): Promise<T | null> {
   const headers = {
