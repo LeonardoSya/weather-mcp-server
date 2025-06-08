@@ -1,39 +1,41 @@
-# How to build a MCP Server ( node.js )
+# How to build a MCP Server
 
-使用Node.js编写一个简单的MCP天气服务
+使用Node.js编写一个MCP天气服务
+
+[![My Skills](https://skillicons.dev/icons?i=ts,nodejs)](https://skillicons.dev)
 
 ### 准备工作
 
 ```bash
-mkdir
+$ mkdir
 
-npm init -y
-npm install @modelcontextprotocol/sdk zod
-npm install -D @types/node typescript
+$ npm init -y
+$ npm install @modelcontextprotocol/sdk zod
+$ npm install -D @types/node typescript
 
-mkdir src
-touch src/index.ts
+$ mkdir src
+$ touch src/index.ts
 ```
 
 ```json
-//* package.json 
+/** package.json */
 {
   "name": "weather-mcp",
   "version": "1.0.0",
   "main": "index.js",
-  //? MCP SDK推荐使用ES模块
+  /** MCP SDK推荐使用ES模块 */
   "type": "module", 
   "description": "",
-  //? 创建全局命令行工具，用户安装后可以直接运行weather命令启动这个MCP服务器，这是MCP服务器的标准分发模式
+  /** 创建全局命令行工具，用户安装后可以直接运行weather命令启动这个MCP服务器，这是MCP服务器的标准分发模式*/
   "bin": {
     "weather": "./build/index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    //? build脚本中，tsc用于编译ts代码，chmod 755设置执行权限，确保命令行工具可以运行
+    /** build脚本中，tsc用于编译ts代码，chmod 755设置执行权限，确保命令行工具可以运行 */
     "build": "tsc && chmod 755 build/index.js"
   },
-  //? 指定发布时只包含构建后的文件，可以减少包大小
+  /** 指定发布时只包含构建后的文件，可以减少包大小 */
   "files": [
     "build"
   ],
@@ -52,7 +54,7 @@ touch src/index.ts
 ```
 
 ```json
-//* tsconfig.json
+/** tsconfig.json */
 {
   "compilerOptions": {
     "target": "ES2022",
@@ -100,7 +102,7 @@ server.tool(
 
 通过**第二个参数“工具描述”**，agent就知道如何根据描述选择工具；通过**第三个参数“参数模式对象”**，agent就知道如何传递参数。因此agent和mcp server交互的思维示例如下：
 
-![image.png](attachment:28e53df9-1733-4569-8b3e-3a9dcf5a1389:image.png)
+![image](https://github.com/user-attachments/assets/ed79ed02-1eb6-43ee-a68a-8724bf45b2e5)
 
 server.tool代码如下（省略工具函数，可前往[github](https://github.com/LeonardoSya/weather-mcp-server)查看）：
 
@@ -271,8 +273,8 @@ main().catch((err) => {
 ### 构建
 
 ```bash
-npm run build
-npm link --force
+$ npm run build
+$ npm link --force
 ```
 
 根据如下的package.json配置，`npm build` 会将src/index.ts编译成javascript，然后输出到build/index.js，然后赋予系统直接运行这个文件的权限(chmod 755)
@@ -293,7 +295,7 @@ npm link --force
 
 这样就能通过`weather` 命令直接启动这个node服务了
 
-![image.png](attachment:be44ee42-968c-4f39-b8b8-5df64887b3e4:image.png)
+![image](https://github.com/user-attachments/assets/04323504-ca0c-4d65-a27a-bba8ff7037bb)
 
 ### 集成custom mcp server到cursor
 
@@ -312,8 +314,8 @@ npm link --force
 
 写完后重启cursor，发现mcp server能够被识别啦
 
-![image.png](attachment:6d4c5ffc-4d18-4ffa-b64c-bc6295c0e9cf:image.png)
+![image](https://github.com/user-attachments/assets/b5d83c3c-560d-4294-bec8-4f8bd9278c13)
 
 新开一个chat view，发现cursor可以调用这个custom mcp了
 
-![image.png](attachment:82313c85-c4af-4ed0-bc5a-5720797220de:image.png)
+![image](https://github.com/user-attachments/assets/1568ec99-ffb2-4994-82b6-0d2ac39f0a48)
